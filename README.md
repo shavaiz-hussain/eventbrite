@@ -14,3 +14,10 @@ https://docs.docker.com/engine/install/
 
 1) Run `docker-compose build`
 2) Run `docker-compose up`
+
+
+## Pre-commit
+1) create a python3 virtual-env and activate it.
+2) run `pip install pre-commit==2.20.0`
+3) Run pip install pre-commit and install in via `pre-commit install`
+4) Now it will execute when you commit the code and run in manually by `pre-commit run`
