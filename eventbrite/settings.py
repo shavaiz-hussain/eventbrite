@@ -131,6 +131,8 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+EVENTBRITE_0AUTH_TOKEN = ""
+ORGANIZATION_ID = ""
 
 
 LOGIN_REDIRECT_URL = "/"
