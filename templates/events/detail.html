@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container jumbotron">
+  <h2 class="display-4">{{ event.name.text }}</h2>
+  <p>{{ event.description.text }}</p>
+  <p><b>Start:</b> {{ event.start.utc }}</p>
+  <p><b>End: </b>{{ event.start.utc }}</p>
+    {% if ticket_class %}
+    <p><b>Ticket Price:</b> {{ ticket_class.cost.display }}</p>
+    {% endif %}
+
+  <!-- Display the map with a non-editable point -->
+    {%  if event.venue %}
+  <div id="map" style="height: 400px;"></div>
+
+    {% endif %}
+    </div>
+  <script>
+    var map = L.map('map').setView([{{ event.venue.latitude }}, {{ event.venue.longitude }}], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var nonEditablePoint = L.marker([{{ event.venue.latitude }}, {{ event.venue.longitude }}], {icon: L.divIcon({className: 'non-editable-point'})}).addTo(map);
+    var venueName = "{{ event.venue.name }}"
+    var popupContent = "<p><b>Venue: </b>" + venueName + "</p>";
+  nonEditablePoint.bindPopup(popupContent, {closeOnClick: false, autoClose: false, closeButton: false}).openPopup();
+  </script>
+  <style>
+    .non-editable-point {
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+    }
+  </style>
+{% endblock %}

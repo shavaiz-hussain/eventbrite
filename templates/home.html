@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Welcome to the Home Page</h2>
+    {% if user.is_authenticated %}
+        <p>You are logged in. Redirecting to Event List...</p>
+        <script>
+            setTimeout(function () {
+                window.location.href = "{% url 'event_list' %}";
+            }, 2000);
+        </script>
+    {% else %}
+        <p>You are not logged in. Redirecting to Login...</p>
+        <script>
+            setTimeout(function () {
+                window.location.href = "{% url 'login' %}";
+            }, 2000);
+        </script>
+    {% endif %}
+{% endblock %}

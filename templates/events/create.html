@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container jumbotron">
+        <h2 class="display-4">Create Event</h2>
+        <form method="post" class="form" id="eventForm">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+            <div id="map" style="height: 400px;"></div>
+            <button type="submit" class="btn btn-primary">Save Event</button>
+
+        </form>
+    </div>
+    <script>
+        var map = L.map('map').setView([0, 0], 2);  // Default center and zoom
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker;
+
+        map.on('click', function (event) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            marker = L.marker(event.latlng).addTo(map);
+            console.log(event)
+            document.getElementById('id_latitude').value = event.latlng.lat;
+            document.getElementById('id_longitude').value = event.latlng.lng;
+        });
+    </script>
+
+    {% if form.errors %} {# Delete this if you always want to see a validation #}
+        <script type="text/javascript">
+            {% for field in form %}
+                var field_input = document.getElementById("{{ field.auto_id }}");
+                if (field_input) {
+                    field_input.classList.add("is-{% if field.errors %}in{% endif %}valid");
+                } else {
+                    multi_widget_fields = document.querySelectorAll('[id^="{{ field.auto_id }}_"]')
+                    multi_widget_fields.forEach(function (element) {
+                        element.classList.add("is-{% if field.errors %}in{% endif %}valid");
+                    });
+                }
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endblock %}

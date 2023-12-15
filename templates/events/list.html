@@ -1,0 +1,27 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid" style="padding: 20px">
+
+  <div class="row">
+      <div class="col-6"><h1 class="display-4">Eventbrite Events</h1></div>
+      <div class="col-6"><a style="float: right"
+              href="{% url 'create_event' %}">
+          <button type="submit" class="btn btn-primary">Create Event</button></a>
+</div>
+  </div>
+    <br>
+    <h3>List of events</h3>
+    <ul>
+        {% for event in events %}
+            <li><a href="{% url 'event_detail' event_id=event.id %}">{{ event.name.text }}</a></li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+{% endblock %}
